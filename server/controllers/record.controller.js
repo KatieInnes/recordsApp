@@ -19,7 +19,7 @@ module.exports.findOneRecord = (req, res) => {
 module.exports.findAllRecords = (req, res) => {
     Record.find()
         .then((allTheRecords) => {
-            res.json({ records: allTheRecords })
+            res.json(allTheRecords)
         })
         .catch(err => res.json(err));
 }

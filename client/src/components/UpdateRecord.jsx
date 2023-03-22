@@ -9,6 +9,7 @@ const Update = (props) => {
     const [artist, setArtist] = useState("");
     const [releaseYear, setReleaseYear] = useState(""); 
     const [genre, setGenre] = useState("");
+    const [explicit, setExplicit] = useState(false);
 
     const navigate = useNavigate();
 
@@ -18,8 +19,8 @@ const Update = (props) => {
                 setAlbumName(res.data.albumName);
                 setArtist(res.data.artist);
                 setReleaseYear(res.data.releaseYear);
-                setGenre(res.data.genre)
-                console.log(res.data);
+                setGenre(res.data.genre);
+                setExplicit(res.data.explicit);
             }) 
             .catch( err => console.log(err) );
     }, [id]);
@@ -30,11 +31,11 @@ const Update = (props) => {
             albumName,
             artist,
             releaseYear,
-            genre
+            genre,
+            explicit
         })
         .then(res => {
-            console.log(res)
-            navigate("/");
+            navigate("/records");
         })
         .catch(err => console.log(err))
     }
@@ -49,7 +50,7 @@ const Update = (props) => {
             </div>
             <div>
                 <label>Artist: </label> 
-                <input type="text" name="artist" value={price} onChange={ (e) => setArtist(e.target.value) } />
+                <input type="text" name="artist" value={artist} onChange={ (e) => setArtist(e.target.value) } />
             </div>
             <div>
                 <label>Release Year: </label> 
@@ -58,6 +59,13 @@ const Update = (props) => {
             <div>
                 <label>Release Year: </label> 
                 <input type="text" name="genre" value={genre} onChange={ (e) => setGenre(e.target.value) } />
+            </div>
+            <div>
+                <label>Explicit: </label> 
+                {explicit
+                    ? <input type="checkbox" checked onChange={(e) => setExplicit(e.target.checked)}/>
+                    : <input type="checkbox" onChange={(e) => setExplicit(e.target.checked)}/>
+                }
             </div>
             <input type = "submit" value = "Update" />
         </form>

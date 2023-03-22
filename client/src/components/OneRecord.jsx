@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import DeleteButton from './DeleteButton';
 
-const OneRecord = (props) => {
+
+const OneRecord = () => {
     const [oneRecord, setOneRecord] = useState({})
-    const {id} = useParams();
-    const navigate = useNavigate();
+    const { id } = useParams();
     
     useEffect(() => {
         axios.get(`http://localhost:8000/api/records/${id}`)
@@ -15,21 +16,15 @@ const OneRecord = (props) => {
             .catch( err => console.log(err) );
     }, [id]);
 
-
-    const deleteHandler = () => {
-        axios.delete(`http://localhost:8000/api/records/${id}`)
-            .then((res) => {
-                navigate('/')
-            })
-    }
     return (
         <div>
             <h3>{oneRecord.albumName}</h3>
-            <p>Artist: ${oneRecord.artist}</p>
+            <p>Artist: {oneRecord.artist}</p>
             <p>Release Year: {oneRecord.releaseYear}</p>
             <p>Genre: {oneRecord.genre}</p>
+            <p>{oneRecord.explicit ? "Explicit" : ""}</p>
             <Link to={`/record/edit/${oneRecord._id}`}>Update</Link>
-            <button className='delete' onClick = { deleteHandler }>Delete</button>
+            <DeleteButton recordId={id} />
         </div>
     );
 };

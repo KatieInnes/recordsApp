@@ -2,15 +2,14 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate, } from "react-router-dom";
 
-const RecordForm = (props) => {
+const RecordForm = () => {
     const [albumName, setAlbumName] = useState("");
     const [artist, setArtist] = useState("");
     const [releaseYear, setReleaseYear] = useState(""); 
     const [genre, setGenre] = useState("");
+    const [explicit, setExplicit] = useState(false);
     
     const navigate = useNavigate();
-
-    const { formData, setFormData} = props;
 
     const createRecord = (e) => {
         e.preventDefault();
@@ -20,17 +19,15 @@ const RecordForm = (props) => {
             artist,
             releaseYear,
             genre,
-            
+            explicit
         }).then(res => {
-            setFormData([ ...formData, res.data.record]);
-            
             setAlbumName("");
             setArtist("");
             setReleaseYear("");
             setGenre("");
+            setExplicit(false);
 
             navigate("/records")
-            
         }).catch(e => {
             console.log("error", e);
         })
@@ -56,6 +53,13 @@ const RecordForm = (props) => {
                     <label>Genre: </label>
                     <input type="text" value={genre} onChange={(e) => setGenre(e.target.value)}/>
                 </div>
+                <div className="formField">
+                    <label>Explicit: </label>
+                    {explicit
+                        ? <input type="checkbox" checked onChange={(e) => setExplicit(e.target.checked)}/>
+                        : <input type="checkbox" onChange={(e) => setExplicit(e.target.checked)}/>
+                    }
+                </div> 
                 <div>
                     <input type = "submit" value = "Add Record" />
                 </div>

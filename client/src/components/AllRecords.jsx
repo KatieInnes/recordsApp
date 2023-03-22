@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios';
+import DeleteButton from './DeleteButton';
 
-const AllRecords = (props) => {
+const AllRecords = () => {
 
-    const { formData, setFormData } = props;
+    const [formData, setFormData] = useState([]);
 
     useEffect(()=>{
         axios.get("http://localhost:8000/api/records")
         .then((res)=>{
-            
-            if (res && res.data && res.data.records) {
-                setFormData(res.data.records);
+            if (res && res.data) {
+                setFormData(res.data);
             }
     })
         .catch((err)=>{
@@ -19,20 +19,11 @@ const AllRecords = (props) => {
         })
     }, [setFormData]);
 
-    const deleteRecord = (recordId) => {
-        axios.delete('http://localhost:8000/api/records/' + recordId)
-            .then(() => {
-                removeFromDom(recordId)
-            })
-            .catch(err => console.log(err))
-    }
-
     const removeFromDom = (recordId) => {
-        setFormData(formData.filter(p => p._id !== recordId))
+        setFormData(formData.filter(r => r._id !== recordId))
     }
 
     return (
-        // <div className='card'>
         <div>
             {
                 formData.map((record, index) => (
@@ -42,8 +33,8 @@ const AllRecords = (props) => {
                             <p>Artist: {record.artist}</p>
                             <p>Release Year: {record.releaseYear}</p>
                             <p>Genre: {record.genre}</p>
-                            
-                            <button className='delete' onClick = { () => deleteRecord(record._id) }>Delete</button>
+                            <p>{record.explicit ? "Explicit" : ""}</p>
+                            <DeleteButton recordId={record._id} removeRecord={removeFromDom} />
                         </div>
                     </div>
                 ))
