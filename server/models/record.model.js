@@ -5,7 +5,7 @@ const RecordSchema = new mongoose.Schema({
     artist: { type: String },
     releaseYear: { type: Number },
     genre: { type: String },
-    explicit: { type: Boolean }
+    // explicit: { type: Boolean }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Record', RecordSchema);
