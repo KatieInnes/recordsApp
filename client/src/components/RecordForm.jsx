@@ -44,28 +44,6 @@ const RecordForm = () => {
 
     }
 
-    // const createRecord = (e) => {
-    //     e.preventDefault();
-
-    //     axios.post('http://localhost:8000/api/records', {
-    //         albumName,
-    //         artist,
-    //         releaseYear,
-    //         genre,
-    //         explicit
-    //     }).then(res => {
-    //         setAlbumName("");
-    //         setArtist("");
-    //         setReleaseYear("");
-    //         setGenre("");
-    //         setExplicit(false);
-
-    //         navigate("/records")
-    //     }).catch(e => {
-    //         console.log("error", e);
-    //     })
-    // };
-
     const createRecord = (e) => {
         e.preventDefault();
         if (recordValidation()){
@@ -89,14 +67,6 @@ const RecordForm = () => {
         
             navigate("/records")
         }
-        // else{
-        //     setErrors({
-        //         albumName: "Album name must be at least 3 characters",
-        //         artist: "Artist name must be at least 3 characters", 
-        //         releaseYear: "Release year must be after 1925", 
-        //         genre: "Genre must be at least three characters"
-        //     })
-        // }
     };
 
     return(
